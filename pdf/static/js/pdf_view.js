@@ -1,6 +1,8 @@
 /* Javascript for pdfXBlock. */
 function pdfXBlockInitView(runtime, element) {
     alert(888)
+    var kaka = getData()
+    console.log(kaka)
     console.log(element)
     console.log(runtime)
     console.trace(runtime)
