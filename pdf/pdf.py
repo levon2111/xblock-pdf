@@ -11,6 +11,7 @@ from xblockutils.settings import XBlockWithSettingsMixin, ThemableXBlockMixin
 from xblock.scorable import ScorableXBlockMixin, Score
 from .utils import _, DummyTranslationService
 from provider.oauth2.models import Client
+import json
 
 loader = ResourceLoader(__name__)
 
@@ -104,7 +105,7 @@ class PdfBlock(
             'source_text': self.source_text,
             'source_url': self.source_url,
             '_i18n_service': self.i18n_service,
-            'credentials': self.get_client_id_and_secret(),
+            'credentials': json.dumps(self.get_client_id_and_secret()),
         }
         html = loader.render_django_template(
             'templates/html/pdf_view.html',
