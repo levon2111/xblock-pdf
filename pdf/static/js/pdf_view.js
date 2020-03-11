@@ -27,16 +27,10 @@ function pdfXBlockInitView(runtime, element) {
 }
 
 function markPdfCompleted(data) {
-        $.post(data.credentials.LMS_ROOT_URL+'/oauth2/access_token/',
-        {
-            client_id: data.credentials.client_id,
-            client_secret: data.credentials.client_secret,
-            grant_type: "client_credentials",
-            token_type: "jwt",
-        },
-        function (response, status) {
-            if(response.access_token) {
-                let batchData = {
+
+
+
+    let batchData = {
                     username: data.credentials.username,
                     course_key: data.course_id,
                     blocks: {}
@@ -55,12 +49,43 @@ function markPdfCompleted(data) {
 
 
                 });
+
+
+        //
+        // $.post(data.credentials.LMS_ROOT_URL+'/oauth2/access_token/',
+        // {
+        //     client_id: data.credentials.client_id,
+        //     client_secret: data.credentials.client_secret,
+        //     grant_type: "client_credentials",
+        //     token_type: "jwt",
+        // },
+        // function (response, status) {
+        //     if(response.access_token) {
+        //         let batchData = {
+        //             username: data.credentials.username,
+        //             course_key: data.course_id,
+        //             blocks: {}
+        //         };
+        //         batchData.blocks[data.block_id] = 1.0;
+        //         console.log(batchData)
+        //         $.ajax({
+        //             url: data.credentials.LMS_ROOT_URL+'/api/completion/v1/completion-batch',
+        //             type: 'POST',
+        //             dataType: 'json',
+        //             contentType: 'application/json',
+        //             data: JSON.stringify(batchData),
+        //             success: function (res) {
+        //                 console.log(res);
+        //             },
+        //
+        //
+        //         });
                 // data.credentials.LMS_ROOT_URL+'/api/completion/v1/completion-batch', batchData, function (res, status_code) {
                 //     console.log(res)
                 //     console.log(status_code)
                 // });
-            }
-            console.log(response);
-            alert("Data: " + response + "\nStatus: " + status);
-        });
+            // }
+            // console.log(response);
+            // alert("Data: " + response + "\nStatus: " + status);
+        // });
 }
