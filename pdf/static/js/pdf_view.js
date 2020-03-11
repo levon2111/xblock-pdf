@@ -1,5 +1,6 @@
 /* Javascript for pdfXBlock. */
 function pdfXBlockInitView(runtime, element) {
+    alert(888)
     /* Weird behaviour :
      * In the LMS, element is the DOM container.
      * In the CMS, element is the jQuery object associated*
