@@ -4,6 +4,10 @@ function pdfXBlockInitView(runtime, element) {
     console.log(element)
     console.log(runtime)
     console.trace(runtime)
+    let block_id = $(element).attr("data-usage-id");
+    let course_id = $(element).attr("data-course-id");
+    console.log(block_id)
+    console.log(course_id)
     /* Weird behaviour :
      * In the LMS, element is the DOM container.
      * In the CMS, element is the jQuery object associated*
