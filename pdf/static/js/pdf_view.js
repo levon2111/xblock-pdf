@@ -43,10 +43,22 @@ function markPdfCompleted(data) {
                 };
                 batchData.blocks[data.block_id] = 1.0;
                 console.log(batchData)
-                $.post(data.credentials.LMS_ROOT_URL+'/api/completion/v1/completion-batch', batchData, function (res, status_code) {
-                    console.log(res)
-                    console.log(status_code)
+                $.ajax({
+                    url: data.credentials.LMS_ROOT_URL+'/api/completion/v1/completion-batch',
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(batchData),
+                    success: function (res) {
+                        console.log(res);
+                    },
+
+
                 });
+                // data.credentials.LMS_ROOT_URL+'/api/completion/v1/completion-batch', batchData, function (res, status_code) {
+                //     console.log(res)
+                //     console.log(status_code)
+                // });
             }
             console.log(response);
             alert("Data: " + response + "\nStatus: " + status);
