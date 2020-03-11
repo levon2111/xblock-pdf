@@ -98,6 +98,7 @@ class PdfBlock(
         The primary view of the XBlock, shown to students
         when viewing courses.
         """
+        credentials = self.get_client_id_and_secret()
         context = {
             'display_name': self.display_name,
             'url': self.url,
@@ -105,7 +106,8 @@ class PdfBlock(
             'source_text': self.source_text,
             'source_url': self.source_url,
             '_i18n_service': self.i18n_service,
-            'credentials': json.dumps(self.get_client_id_and_secret()),
+            'client_id': credentials['client_id'] if credentials else None,
+            'client_secret': credentials['client_secret'] if credentials else None,
         }
         html = loader.render_django_template(
             'templates/html/pdf_view.html',
