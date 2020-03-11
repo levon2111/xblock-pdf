@@ -42,6 +42,7 @@ function markPdfCompleted(data) {
                     blocks: {}
                 };
                 batchData.blocks[data.block_id] = 1.0;
+                console.log(batchData)
                 $.post(data.credentials.LMS_ROOT_URL+'/api/completion/v1/completion-batch', batchData, function (res, status_code) {
                     console.log(res)
                     console.log(status_code)
