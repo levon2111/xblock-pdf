@@ -34,8 +34,20 @@ function markPdfCompleted(data) {
             grant_type: "client_credentials",
             token_type: "jwt",
         },
-        function (data, status) {
-            console.log(data);
-            alert("Data: " + data + "\nStatus: " + status);
+        function (response, status) {
+            if(response.access_token) {
+                let batchData = {
+                    username: data.credentials.username,
+                    course_key: data.course_id,
+                    blocks: {}
+                };
+                batchData.blocks[data.block_id] = 1.0;
+                $.post(data.credentials.LMS_ROOT_URL+'/api/completion/v1/completion-batch', batchData, function (res, status_code) {
+                    console.log(res)
+                    console.log(status_code)
+                });
+            }
+            console.log(response);
+            alert("Data: " + response + "\nStatus: " + status);
         });
 }

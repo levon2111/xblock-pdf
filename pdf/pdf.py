@@ -109,6 +109,7 @@ class PdfBlock(
             'client_id': credentials['client_id'] if credentials else None,
             'client_secret': credentials['client_secret'] if credentials else None,
             'LMS_ROOT_URL': settings.LMS_ROOT_URL,
+            'user': self.get_real_user(),
         }
         html = loader.render_django_template(
             'templates/html/pdf_view.html',
@@ -195,3 +196,7 @@ class PdfBlock(
                 "client_secret": client.client_secret
             }
         return None
+
+    def get_real_user(self):
+        """returns session user"""
+        return self.runtime.get_real_user(self.xmodule_runtime.anonymous_student_id)
