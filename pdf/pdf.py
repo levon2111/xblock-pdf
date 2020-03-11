@@ -187,4 +187,7 @@ class PdfBlock(
 
     def get_real_user(self):
         """returns session user"""
-        return self.runtime.get_real_user(self.xmodule_runtime.anonymous_student_id)
+        try:
+            return self.runtime.get_real_user(self.xmodule_runtime.anonymous_student_id)
+        except Exception:
+            return None
