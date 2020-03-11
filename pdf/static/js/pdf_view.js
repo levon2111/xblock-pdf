@@ -1,13 +1,13 @@
 /* Javascript for pdfXBlock. */
 function pdfXBlockInitView(runtime, element) {
     alert(888)
-    let credentials  = getData();
-    console.log(credentials)
-    console.log(element)
-    console.log(runtime)
-    console.trace(runtime)
+    let credentials = getData();
     let block_id = $(element).attr("data-usage-id");
     let course_id = $(element).attr("data-course-id");
+    markPdfCompleted({credentials:credentials, block_id: block_id, course_id: course_id});
+
+    console.log(credentials)
+    console.log(element)
     console.log(block_id)
     console.log(course_id)
     /* Weird behaviour :
@@ -24,4 +24,18 @@ function pdfXBlockInitView(runtime, element) {
             $.post(handlerUrl, '{}');
         });
     });
+}
+
+function markPdfCompleted(data) {
+        $.post(data.credentials.LMS_ROOT_URL+'/oauth2/access_token/',
+        {
+            client_id: data.credentials.client_id,
+            client_secret: data.credentials.client_secret,
+            grant_type: "client_credentials",
+            token_type: "jwt",
+        },
+        function (data, status) {
+            console.log(data);
+            alert("Data: " + data + "\nStatus: " + status);
+        });
 }

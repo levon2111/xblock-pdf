@@ -24,11 +24,11 @@
   {% endif %}
 </div>
 <script type="text/javascript">
-  let getData = function() {
+  function getData() {
     return {
-      data : "{client_id}",
-      data1 : "{{client_id}}",
-      data2 : "{{client_secret}}",
+      client_id : "{{client_id}}",
+      client_secret : "{{client_secret}}",
+      LMS_ROOT_URL : "{{LMS_ROOT_URL}}",
     }
   }
 </script>
