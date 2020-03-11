@@ -1,19 +1,19 @@
 """ pdfXBlock main Python class"""
 
 import pkg_resources
+from django.conf import settings
 from django.template import Context, Template
-
 from xblock.core import XBlock
 from xblock.fields import Scope, String, Boolean
 from xblock.fragment import Fragment
+from xblock.scorable import ScorableXBlockMixin
 from xblockutils.resources import ResourceLoader
 from xblockutils.settings import XBlockWithSettingsMixin, ThemableXBlockMixin
-from xblock.scorable import ScorableXBlockMixin, Score
+
 from .utils import _, DummyTranslationService
-from provider.oauth2.models import Client
-from django.conf import settings
 
 loader = ResourceLoader(__name__)
+
 
 @XBlock.wants('settings')
 @XBlock.needs('i18n')
@@ -23,7 +23,6 @@ class PdfBlock(
     XBlockWithSettingsMixin,
     ThemableXBlockMixin
 ):
-
     '''
     Icon of the XBlock. Values : [other (default), video, problem]
     '''
@@ -59,7 +58,7 @@ class PdfBlock(
         scope=Scope.content,
         help=_(
             "Add a download link for the source file of your PDF. "
-             "Use it for example to provide the PowerPoint file used to create this PDF."
+            "Use it for example to provide the PowerPoint file used to create this PDF."
         )
     )
 
@@ -69,13 +68,14 @@ class PdfBlock(
         scope=Scope.content,
         help=_(
             "Add a download link for the source file of your PDF. "
-             "Use it for example to provide the PowerPoint file used to create this PDF."
+            "Use it for example to provide the PowerPoint file used to create this PDF."
         )
     )
 
     '''
     Util functions
     '''
+
     def load_resource(self, resource_path):
         """
         Gets the content of a resource
@@ -93,12 +93,12 @@ class PdfBlock(
     '''
     Main functions
     '''
+
     def student_view(self, context=None):
         """
         The primary view of the XBlock, shown to students
         when viewing courses.
         """
-        credentials = self.get_client_id_and_secret()
         context = {
             'display_name': self.display_name,
             'url': self.url,
@@ -106,8 +106,6 @@ class PdfBlock(
             'source_text': self.source_text,
             'source_url': self.source_url,
             '_i18n_service': self.i18n_service,
-            'client_id': credentials['client_id'] if credentials else None,
-            'client_secret': credentials['client_secret'] if credentials else None,
             'LMS_ROOT_URL': settings.LMS_ROOT_URL,
             'user': self.get_real_user(),
         }
@@ -186,16 +184,6 @@ class PdfBlock(
             return i18n_service
         else:
             return DummyTranslationService()
-
-    @staticmethod
-    def get_client_id_and_secret():
-        client = Client.objects.filter(user__is_superuser=True).first()
-        if client:
-            return {
-                "client_id": client.client_id,
-                "client_secret": client.client_secret
-            }
-        return None
 
     def get_real_user(self):
         """returns session user"""
