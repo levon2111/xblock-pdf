@@ -10,6 +10,7 @@ from xblockutils.resources import ResourceLoader
 from xblockutils.settings import XBlockWithSettingsMixin, ThemableXBlockMixin
 from xblock.scorable import ScorableXBlockMixin, Score
 from .utils import _, DummyTranslationService
+from provider.oauth2.models import Client
 
 loader = ResourceLoader(__name__)
 
@@ -102,7 +103,8 @@ class PdfBlock(
             'allow_download': self.allow_download,
             'source_text': self.source_text,
             'source_url': self.source_url,
-            '_i18n_service': self.i18n_service
+            '_i18n_service': self.i18n_service,
+            'credentials': self.get_client_id_and_secret(),
         }
         html = loader.render_django_template(
             'templates/html/pdf_view.html',
@@ -179,3 +181,13 @@ class PdfBlock(
             return i18n_service
         else:
             return DummyTranslationService()
+
+    @staticmethod
+    def get_client_id_and_secret():
+        client = Client.objects.filter(user__is_superuser=True).first()
+        if client:
+            return {
+                "client_id": client.client_id,
+                "client_secret": client.client_secret
+            }
+        return None
